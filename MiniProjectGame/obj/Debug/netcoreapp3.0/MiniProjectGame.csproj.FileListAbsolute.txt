@@ -1,0 +1,11 @@
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\bin\Debug\netcoreapp3.0\MiniProjectGame.exe
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\bin\Debug\netcoreapp3.0\MiniProjectGame.deps.json
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\bin\Debug\netcoreapp3.0\MiniProjectGame.runtimeconfig.json
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\bin\Debug\netcoreapp3.0\MiniProjectGame.runtimeconfig.dev.json
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\bin\Debug\netcoreapp3.0\MiniProjectGame.dll
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\bin\Debug\netcoreapp3.0\MiniProjectGame.pdb
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\obj\Debug\netcoreapp3.0\MiniProjectGame.csprojAssemblyReference.cache
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\obj\Debug\netcoreapp3.0\MiniProjectGame.AssemblyInfoInputs.cache
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\obj\Debug\netcoreapp3.0\MiniProjectGame.AssemblyInfo.cs
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\obj\Debug\netcoreapp3.0\MiniProjectGame.dll
+C:\Users\Chris\source\repos\MiniProjectGame\MiniProjectGame\obj\Debug\netcoreapp3.0\MiniProjectGame.pdb
