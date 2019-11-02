@@ -6,6 +6,10 @@ namespace MiniProjectGame
 {
     class PlayArea
     {
+        public PlayArea()
+        {
+            buildBoundries();
+        }
         //play area should be 50w x 35h
         public void buildBoundries()
         {
@@ -14,7 +18,7 @@ namespace MiniProjectGame
             int count = 0;
             //Builds top boundary, width 50
             while (count++ < 48)
-                playArea.Append("\u2580");
+                playArea.Append("\u2588"); // was "\u2580"
             count = 0;
             playArea.AppendLine("\u2588");
             //Builds side boundaries, height 34 for total height 50
