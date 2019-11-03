@@ -15,7 +15,6 @@ namespace MiniProjectGame
             PlayArea playArea = new PlayArea();
             Paddle paddle = new Paddle();
             Ball ball = new Ball();
-
         }
     }
 }
