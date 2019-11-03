@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
 using System.Text;
 
 namespace MiniProjectGame
@@ -8,12 +9,19 @@ namespace MiniProjectGame
     {
         public Paddle()
         {
+            Thread paddleThread = new Thread(PaddleMovement);
+            paddleThread.Start();
+        }
+        //Renders and moves paddle left/right based off player input
+        public void PaddleMovement()
+        {
             StringBuilder paddle = new StringBuilder("\u2588\u2588\u2588\u2588\u2588");
             Console.CursorVisible = false;
-            int x = 23;
+            int x = 24;
             int y = 35;
             Console.SetCursorPosition(x, y);
             Console.Write(paddle);
+        //Reads input and updates paddle location
             while (true)
             {
                 ConsoleKeyInfo keyPress = Console.ReadKey(true);
@@ -25,7 +33,7 @@ namespace MiniProjectGame
                         {
                             x++;
                             break;
-                        } 
+                        }
                         Console.SetCursorPosition(x, y);
                         Console.Write(paddle + " ");
                         break;
@@ -37,12 +45,12 @@ namespace MiniProjectGame
                             x--;
                             break;
                         }
-                        Console.SetCursorPosition(x-1, y);
+                        Console.SetCursorPosition(x - 1, y);
                         Console.Write(" " + paddle);
                         break;
                 }
+                //Thread.Sleep(10);
             }
-
         }
     }
 }

@@ -13,10 +13,9 @@ namespace MiniProjectGame
             Console.Clear();
 
             PlayArea playArea = new PlayArea();
-
-            playArea.buildBoundries();
             Paddle paddle = new Paddle();
-            
+            Ball ball = new Ball();
+
         }
     }
 }
