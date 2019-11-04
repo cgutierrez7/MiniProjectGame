@@ -7,20 +7,24 @@ namespace MiniProjectGame
 {
     class Paddle
     {
+        public int Position { get; set; }
+        public int x { get; set; }
+        public int y { get; set; }
+
+        StringBuilder paddle = new StringBuilder("\u2588\u2588\u2588\u2588\u2588");
+
         public Paddle()
         {
-            Thread paddleThread = new Thread(PaddleMovement);
-            paddleThread.Start();
+            x = 24;
+            y = 35;
+            Console.SetCursorPosition(x, y);
+            Console.Write(paddle);
         }
         //Renders and moves paddle left/right based off player input
         public void PaddleMovement()
         {
-            StringBuilder paddle = new StringBuilder("\u2588\u2588\u2588\u2588\u2588");
             Console.CursorVisible = false;
-            int x = 24;
-            int y = 35;
-            Console.SetCursorPosition(x, y);
-            Console.Write(paddle);
+            Position = x;
         //Reads input and updates paddle location
             while (true)
             {
@@ -49,7 +53,7 @@ namespace MiniProjectGame
                         Console.Write(" " + paddle);
                         break;
                 }
-                //Thread.Sleep(10);
+                Position = x;
             }
         }
     }
