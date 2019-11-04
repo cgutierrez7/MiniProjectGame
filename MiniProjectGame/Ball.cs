@@ -7,20 +7,20 @@ namespace MiniProjectGame
 {
     class Ball
     {
-        int previousX = 0;
-        int previousY = 0;
-        int currentX = 26;
-        int currentY = 34;
-        int turn = 1;
+        public int PreviousX { get; set; } = 0;
+        public int PreviousY { get; set; } = 0;
+        public int CurrentX { get; set; } = 26;
+        public int CurrentY { get; set; } = 33;
+        public int Turn { get; set; }
+        public int PaddlePosition { get; set; }
+
         public Ball()
         {
-            Console.SetCursorPosition(currentX, currentY);
+            Console.SetCursorPosition(CurrentX, CurrentY);
             Console.Write("\u2588");
-            Thread ballThread = new Thread(BallInPlay);
-            ballThread.Start();
         }
 
-        void BallInPlay()
+        public void BallInPlay()
         {
             // Replace this with an on keypress of spacebar type event
             ConsoleKeyInfo startBall;
@@ -30,221 +30,331 @@ namespace MiniProjectGame
             }
             while (startBall.Key != ConsoleKey.Spacebar);
             if (startBall.Key == ConsoleKey.Spacebar)
-                //UpwardMovement();
-                //DiagonalLeftMovement();
                 DiagonalRightMovement();
         }
 
-        void UpwardMovement()
+        public void UpwardMovement()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                if (currentY > 2)
+                if (CurrentY > 2)
                 {
-                    previousY = currentY;
-                    currentY--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(currentX, previousY);
+                    Console.SetCursorPosition(CurrentX, PreviousY);
                     Console.Write(" ");
 
                 }
-                else if (currentY == 2)
+                else if (CurrentY == 2)
                 {
-                    previousY = currentY;
-                    currentY++;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(currentX, previousY);
+                    Console.SetCursorPosition(CurrentX, PreviousY);
                     Console.Write(" ");
                     DownwardMovement();
                     return;
                 }
             }
         }
-        void DownwardMovement()
+        public void DownwardMovement()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                if (currentY > 2 && currentY < 36)
+                if ((CurrentX == PaddlePosition || CurrentX == PaddlePosition + 1) && CurrentY == 34)
                 {
-                    previousY = currentY;
-                    currentY++;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(currentX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    DiagonalLeftMovement();
+                }
+                else if ((CurrentX == PaddlePosition + 3 || CurrentX == PaddlePosition + 4) && CurrentY == 34)
+                {
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    DiagonalRightMovement();
+                }
+                else if (CurrentY > 2 && CurrentY < 36)
+                {
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(CurrentX, PreviousY);
                     Console.Write(" ");
                 }
-                else if (currentY == 36)
+
+                else if (CurrentY == 36)
                 {
-                    Console.SetCursorPosition(currentX, currentY);
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write(" ");
                     return;
                 }
             }
         }
 
-        void DiagonalLeftMovement()
+        public void DiagonalLeftMovement()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                if (currentY == 2 && currentX > 2)
+                //Top wall hit, but still continue moving left
+                if (CurrentY == 2 && CurrentX > 2)
                 {
-                    previousX = currentX;
-                    currentX--;
-                    previousY = currentY;
-                    currentY++;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                     DiagonalLeftDownMovement();
                 }
-                else if (currentX > 2 && currentY < 36 && currentY > 2)
+                //Continue moving left & upward
+                else if (CurrentX > 2 && CurrentY < 36 && CurrentY > 2)
                 {
-                    //Leftward Movement
-                    previousX = currentX;
-                    currentX--;
-                    //Downward Movement
-                    previousY = currentY;
-                    currentY--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
-
                 }
-                else if (currentX == 2 && currentY > 2)
+                //Collision with Left Wall, but continue upward
+                else if (CurrentX == 2 && CurrentY > 2)
                 {
-                    previousX = currentX;
-                    currentX++;
-                    previousY = currentY;
-                    currentY--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                     DiagonalRightMovement();
                 }
             }
         }
-        void DiagonalRightMovement()
+        public void DiagonalRightMovement()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                if (currentY == 2 && currentX < 49)
+                if (CurrentY == 2 && CurrentX < 49)
                 {
-                    previousX = currentX;
-                    currentX++;
-                    previousY = currentY;
-                    currentY++;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                     DiagonalRightDownMovement();
                 }
-                else if (currentX < 49 && currentY < 36 && currentY > 2)
+                else if (CurrentX < 49 && CurrentY < 36 && CurrentY > 2)
                 {
                     //Rightward Movement
-                    previousX = currentX;
-                    currentX++;
+                    PreviousX = CurrentX;
+                    CurrentX++;
                     //Downward Movement
-                    previousY = currentY;
-                    currentY--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
 
                 }
-                else if (currentX == 49 && currentY > 2)
+                else if (CurrentX == 49 && CurrentY > 2)
                 {
-                    previousX = currentX;
-                    currentX--;
-                    previousY = currentY;
-                    currentY--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                     DiagonalLeftMovement();
                 }
             }
         }
 
-        void DiagonalLeftDownMovement()
+        public void DiagonalLeftDownMovement()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                if (currentX == 2)
+                if (CurrentX == 2)
                 {
-                    previousX = currentX;
-                    currentX++;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                     DiagonalRightDownMovement();
                 }
-                if (currentY > 2 && currentY < 36)
+                else if (CurrentX == PaddlePosition + 2 && CurrentY == 34)
                 {
-                    previousY = currentY;
-                    currentY++;
-                    previousX = currentX;
-                    currentX--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    //CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    UpwardMovement();
+                }
+                else if (CurrentX >= PaddlePosition && CurrentX <= PaddlePosition + 4 && CurrentX != PaddlePosition + 2 && CurrentY == 34)
+                {
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    DiagonalLeftMovement();
+                }
+                else if (CurrentY > 2 && CurrentY < 36)
+                {
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                 }
-                else if (currentY == 36)
+                else if (CurrentY == 36)
                 {
-                    Console.SetCursorPosition(currentX, currentY);
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write(" ");
                     return;
                 }
             }
         }
 
-        void DiagonalRightDownMovement()
+        public void DiagonalRightDownMovement()
         {
             while (true)
             {
                 Thread.Sleep(100);
-                if (currentX == 49)
+                if (CurrentX == 49)
                 {
-                    previousX = currentX;
-                    currentX--;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                     DiagonalLeftDownMovement();
                 }
-                if (currentY > 2 && currentY < 36)
+                else if (CurrentX == PaddlePosition + 2 && CurrentY == 34)
                 {
-                    previousY = currentY;
-                    currentY++;
-                    previousX = currentX;
-                    currentX++;
-                    Console.SetCursorPosition(currentX, currentY);
+                    PreviousX = CurrentX;
+                    //CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write("\u2588");
-                    Console.SetCursorPosition(previousX, previousY);
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    UpwardMovement();
+                }
+                else if (CurrentX >= PaddlePosition && CurrentX <= PaddlePosition + 4 && CurrentX != PaddlePosition + 2 && CurrentY == 34)
+                {
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    DiagonalRightMovement();
+                }
+                else if (CurrentY > 2 && CurrentY < 36)
+                {
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(PreviousX, PreviousY);
                     Console.Write(" ");
                 }
-                else if (currentY == 36)
+                else if (CurrentY == 36)
                 {
-                    Console.SetCursorPosition(currentX, currentY);
+                    Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write(" ");
                     return;
                 }
             }
+        }
+
+        public void PaddleHitLeftMovement()
+        {
+            Thread.Sleep(100);
+            PreviousX = CurrentX;
+            CurrentX--;
+            PreviousY = CurrentY;
+            CurrentY--;
+            Console.SetCursorPosition(CurrentX, CurrentY);
+            Console.Write("\u2588");
+            Console.SetCursorPosition(PreviousX, PreviousY);
+            Console.Write(" ");
+            DiagonalLeftMovement();
+        }
+        public void PaddleHitRightMovement()
+        {
+            Thread.Sleep(100);
+            PreviousX = CurrentX;
+            CurrentX++;
+            PreviousY = CurrentY;
+            CurrentY--;
+            Console.SetCursorPosition(CurrentX, CurrentY);
+            Console.Write("\u2588");
+            Console.SetCursorPosition(PreviousX, PreviousY);
+            Console.Write(" ");
+            DiagonalRightMovement();
+        }
+        public void PaddleHitUpMovement()
+        {
+            Thread.Sleep(100);
+            PreviousX = CurrentX;
+            PreviousY = CurrentY;
+            CurrentY--;
+            Console.SetCursorPosition(CurrentX, CurrentY);
+            Console.Write("\u2588");
+            Console.SetCursorPosition(PreviousX, PreviousY);
+            Console.Write(" ");
+            UpwardMovement();
         }
     }
 }

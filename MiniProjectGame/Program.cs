@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Threading;
 
 namespace MiniProjectGame
 {
@@ -12,9 +13,15 @@ namespace MiniProjectGame
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
 
-            PlayArea playArea = new PlayArea();
-            Paddle paddle = new Paddle();
-            Ball ball = new Ball();
+            Game game = new Game();
+            Thread paddleThread = new Thread(game.Paddle.PaddleMovement);
+            paddleThread.Start();
+            Thread ballThread = new Thread(game.Ball.BallInPlay);
+            ballThread.Start();
+            while (true)
+            {
+                game.PaddleUpdate();
+            }
         }
     }
 }
