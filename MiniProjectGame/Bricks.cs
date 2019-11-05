@@ -21,9 +21,9 @@ namespace MiniProjectGame
         //Turn this into either a randomizer or level selector
         public void BrickLayout()
         {
-            //for (int i = 5; i < 12; i += 2)
-            //{
-                BrickY = 9;
+            for (int i = 5; i < 12; i += 2)
+            {
+                BrickY = i;
             for (int j = 5; j < 41; j += 7)
             {
                 BrickX = j;
@@ -31,7 +31,7 @@ namespace MiniProjectGame
                     Console.Write(renderBrick);
                     BrickMaker(BrickX, BrickY);
             }
-            //}
+            }
         }
         //adds bricks to BrickLocation list using initial x coord and the follow 4 spaces for a 1x5 brick
         public void BrickMaker(int startX, int y)
