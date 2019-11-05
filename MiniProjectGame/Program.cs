@@ -22,8 +22,8 @@ namespace MiniProjectGame
             while (game.DidYouWin())
             {
                 game.PaddleUpdate();
-                game.BrickLocationUpdater();
                 game.DidBallHitBrick();
+                //game.BrickLocationUpdater();
             }
             Console.Clear();
             Console.WriteLine("YOU CLEARED THE LEVEL");
