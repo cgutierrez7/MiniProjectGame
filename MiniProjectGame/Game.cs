@@ -41,7 +41,7 @@ namespace MiniProjectGame
                 }
             }
         }
-        //THIS WORKSS!!!! DON'T FUCK WITH IT
+        //Checks for win and sends bool to terminate game
         public bool DidYouWin()
         {
             if (Bricks.BrickLocation.Count == 1)

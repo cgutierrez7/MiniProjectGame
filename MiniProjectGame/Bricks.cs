@@ -14,6 +14,7 @@ namespace MiniProjectGame
         
         public Bricks()
         {
+            // [0,0] added so BrickLocation is not null upon clearing all bricks
             BrickLocation.Add(new int[] { 0, 0 });
             BrickLayout();
         }

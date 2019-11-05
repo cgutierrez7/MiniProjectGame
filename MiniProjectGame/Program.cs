@@ -18,7 +18,7 @@ namespace MiniProjectGame
             paddleThread.Start();
             Thread ballThread = new Thread(game.Ball.BallInPlay);
             ballThread.Start();
-            //DON'T FUCK WITH WIN CONDITION
+            //Loop terminate upon win clearing all bricks now
             while (game.DidYouWin())
             {
                 game.PaddleUpdate();
