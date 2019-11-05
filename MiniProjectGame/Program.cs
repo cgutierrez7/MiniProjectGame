@@ -18,10 +18,18 @@ namespace MiniProjectGame
             paddleThread.Start();
             Thread ballThread = new Thread(game.Ball.BallInPlay);
             ballThread.Start();
-            while (true)
+            //DON'T FUCK WITH WIN CONDITION
+            while (game.DidYouWin())
             {
                 game.PaddleUpdate();
+                game.BrickLocationUpdater();
+                game.DidBallHitBrick();
             }
+            Console.Clear();
+            Console.WriteLine("YOU CLEARED THE LEVEL");
+            ballThread.Interrupt();
+            paddleThread.Interrupt();
+            Console.ReadKey();
         }
     }
 }
