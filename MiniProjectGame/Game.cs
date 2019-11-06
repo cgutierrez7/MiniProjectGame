@@ -17,7 +17,8 @@ namespace MiniProjectGame
             Paddle = new Paddle();
             Ball = new Ball();
             Bricks = new Bricks();
-            BrickLocationUpdater();
+            Ball.BrickLocation = Bricks.BrickLocation;
+            //BrickLocationUpdater();
         }
         //updates paddle start position to ball class
         public void PaddleUpdate()
@@ -25,31 +26,37 @@ namespace MiniProjectGame
             Ball.PaddlePosition = Paddle.Position;
         }
         //sends updated list from brick class to ball class
-        public void BrickLocationUpdater()
-        {
-            Ball.BrickLocation = Bricks.BrickLocation;
-        }
+        //public void BrickLocationUpdater()
+        //{
+        //    Ball.BrickLocation = Bricks.BrickLocation;
+        //}
         public void DidBallHitBrick()
         {
             foreach (int[] brick in Bricks.BrickLocation)
             {
-                if (Ball.CurrentY == brick[0] && (Ball.CurrentX == brick[1] || Ball.CurrentX == brick[2] || Ball.CurrentX == brick[3] || Ball.CurrentX == brick[4] || Ball.CurrentX == brick[5]))
+                if (Ball.CurrentY == brick[0] && (Ball.CurrentX >= brick[1] && Ball.CurrentX <= brick[5]))
                 {
                     //sends the brick array and ball x & y coords at hit location
                     Bricks.Breaker(brick, Ball.CurrentX, Ball.CurrentY);
-                    BrickLocationUpdater();
+                    Ball.BrickLocation.Remove(brick); //removing brick directly here instead of location updater
+                    //BrickLocationUpdater();
                     return;
                 }
             }
         }
         //Checks for win and sends bool to terminate game
-        public bool DidYouWin()
+        public bool DidYouWinOrLose()
         {
             if (Bricks.BrickLocation.Count == 1)
             {
                 return false;
             }
+            else if (Ball.Turn > 2)
+            {
+                return false;
+            }
             return true;
         }
+
     }
 }
