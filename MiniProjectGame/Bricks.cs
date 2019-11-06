@@ -11,10 +11,11 @@ namespace MiniProjectGame
 
         public List<int[]> BrickLocation = new List<int[]>(); 
         StringBuilder renderBrick = new StringBuilder("\u2588\u2588\u2588\u2588\u2588");
+        StringBuilder clearBrick = new StringBuilder("     ");
         
         public Bricks()
         {
-            // [0,0] added so BrickLocation is not null upon clearing all bricks
+            // [0,0] added so BrickLocation is not empty upon clearing all bricks
             BrickLocation.Add(new int[] { 0, 0 });
             BrickLayout();
         }
@@ -24,13 +25,13 @@ namespace MiniProjectGame
             for (int i = 5; i < 12; i += 2)
             {
                 BrickY = i;
-            for (int j = 5; j < 41; j += 7)
-            {
-                BrickX = j;
-                    Console.SetCursorPosition(BrickX, BrickY);
-                    Console.Write(renderBrick);
-                    BrickMaker(BrickX, BrickY);
-            }
+                for (int j = 5; j < 41; j += 7)
+                {
+                    BrickX = j;
+                        Console.SetCursorPosition(BrickX, BrickY);
+                        Console.Write(renderBrick);
+                        BrickMaker(BrickX, BrickY);
+                }
             }
         }
         //adds bricks to BrickLocation list using initial x coord and the follow 4 spaces for a 1x5 brick
@@ -44,7 +45,7 @@ namespace MiniProjectGame
         public void Breaker(int[] brick, int ballX, int ballY)
         {
             Console.SetCursorPosition(brick[1], brick[0]);
-            Console.Write("     ");
+            Console.Write(clearBrick);
             BrickLocation.Remove(brick);
         }
     }

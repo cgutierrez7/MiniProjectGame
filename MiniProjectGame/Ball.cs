@@ -7,8 +7,8 @@ namespace MiniProjectGame
 {
     class Ball
     {
-        public int PreviousX { get; set; } = 0;
-        public int PreviousY { get; set; } = 0;
+        public int PreviousX { get; set; } = 26;
+        public int PreviousY { get; set; } = 33;
         public int CurrentX { get; set; } = 26;
         public int CurrentY { get; set; } = 33;
         public int Turn { get; set; }
@@ -24,6 +24,14 @@ namespace MiniProjectGame
         public void BallInPlay()
         {
             // Replace this with an on keypress of spacebar type event
+            if (Turn > 0)
+            {
+                Console.SetCursorPosition(26, 33);
+                Console.Write("\u2588");
+                CurrentX = 26;
+                CurrentY = 33;
+            }
+
             ConsoleKeyInfo startBall;
             do
             {
@@ -39,7 +47,7 @@ namespace MiniProjectGame
             while (true)
             {
                 DidBallHitBrick();
-                Thread.Sleep(100);
+                Thread.Sleep(75);
                 if (CurrentY > 2)
                 {
                     PreviousY = CurrentY;
@@ -68,7 +76,7 @@ namespace MiniProjectGame
             while (true)
             {
                 DidBallHitBrick();
-                Thread.Sleep(100);
+                Thread.Sleep(75);
                 if ((CurrentX == PaddlePosition || CurrentX == PaddlePosition + 1) && CurrentY == 34)
                 {
                     PreviousX = CurrentX;
@@ -93,6 +101,18 @@ namespace MiniProjectGame
                     Console.Write(" ");
                     DiagonalRightMovement();
                 }
+                else if (CurrentX == PaddlePosition + 2 && CurrentY == 34)
+                {
+                    PreviousX = CurrentX;
+                    //CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY--;
+                    Console.SetCursorPosition(CurrentX, CurrentY);
+                    Console.Write("\u2588");
+                    Console.SetCursorPosition(PreviousX, PreviousY);
+                    Console.Write(" ");
+                    UpwardMovement();
+                }
                 else if (CurrentY > 2 && CurrentY < 36)
                 {
                     PreviousY = CurrentY;
@@ -107,7 +127,9 @@ namespace MiniProjectGame
                 {
                     Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write(" ");
-                    return;
+                    Turn++;
+                    Thread.Sleep(500);
+                    BallInPlay();
                 }
             }
         }
@@ -117,7 +139,7 @@ namespace MiniProjectGame
             while (true)
             {
                 DidBallHitBrick();
-                Thread.Sleep(100);
+                Thread.Sleep(75);
                 //Top wall hit, but still continue moving left
                 if (CurrentY == 2 && CurrentX > 2)
                 {
@@ -163,7 +185,7 @@ namespace MiniProjectGame
             while (true)
             {
                 DidBallHitBrick();
-                Thread.Sleep(100);
+                Thread.Sleep(75);
                 if (CurrentY == 2 && CurrentX < 49)
                 {
                     PreviousX = CurrentX;
@@ -210,7 +232,7 @@ namespace MiniProjectGame
             while (true)
             {
                 DidBallHitBrick();
-                Thread.Sleep(100);
+                Thread.Sleep(75);
                 if (CurrentX == 2)
                 {
                     PreviousX = CurrentX;
@@ -260,6 +282,9 @@ namespace MiniProjectGame
                 {
                     Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write(" ");
+                    Turn++;
+                    Thread.Sleep(500);
+                    BallInPlay();
                     return;
                 }
             }
@@ -270,7 +295,7 @@ namespace MiniProjectGame
             while (true)
             {
                 DidBallHitBrick();
-                Thread.Sleep(100);
+                Thread.Sleep(75);
                 if (CurrentX == 49)
                 {
                     PreviousX = CurrentX;
@@ -320,6 +345,9 @@ namespace MiniProjectGame
                 {
                     Console.SetCursorPosition(CurrentX, CurrentY);
                     Console.Write(" ");
+                    Turn++;
+                    Thread.Sleep(500);
+                    BallInPlay();
                     return;
                 }
             }
@@ -327,7 +355,7 @@ namespace MiniProjectGame
 
         public void PaddleHitLeftMovement()
         {
-            Thread.Sleep(100);
+            Thread.Sleep(75);
             PreviousX = CurrentX;
             CurrentX--;
             PreviousY = CurrentY;
@@ -340,7 +368,7 @@ namespace MiniProjectGame
         }
         public void PaddleHitRightMovement()
         {
-            Thread.Sleep(100);
+            Thread.Sleep(75);
             PreviousX = CurrentX;
             CurrentX++;
             PreviousY = CurrentY;
@@ -353,7 +381,7 @@ namespace MiniProjectGame
         }
         public void PaddleHitUpMovement()
         {
-            Thread.Sleep(100);
+            Thread.Sleep(75);
             PreviousX = CurrentX;
             PreviousY = CurrentY;
             CurrentY--;
@@ -363,13 +391,17 @@ namespace MiniProjectGame
             Console.Write(" ");
             UpwardMovement();
         }
+
+        //upon hitting a brick method
         public void HitBrick(int currentX, int currentY)
         {
-            CurrentX = currentX;
-            CurrentY = currentY;
+            //CurrentX = currentX;
+            //CurrentY = currentY;
+            //Console.WriteLine($"({PreviousX}, {PreviousY})  ({CurrentX}, {CurrentY})");
             //straight up trajectory
-            if (PreviousX == CurrentX && PreviousY > CurrentY)
+            if (PreviousX == CurrentX && PreviousY >= CurrentY)
             {
+                Thread.Sleep(75);
                 Console.SetCursorPosition(CurrentX, CurrentY);
                 Console.Write("\u2588");
                 Console.SetCursorPosition(PreviousX, PreviousY);
@@ -379,10 +411,12 @@ namespace MiniProjectGame
             //upleft trajectory
             else if (PreviousX > CurrentX && PreviousY > CurrentY)
             {
-                //PreviousX = CurrentX;
-                //CurrentX--;
-                //PreviousY = CurrentY;
-                //CurrentY++;
+                Thread.Sleep(75);
+
+                PreviousX = CurrentX;
+                CurrentX--;
+                PreviousY = CurrentY;
+                CurrentY++;
                 Console.SetCursorPosition(CurrentX, CurrentY);
                 Console.Write("\u2588");
                 Console.SetCursorPosition(PreviousX, PreviousY);
@@ -392,10 +426,12 @@ namespace MiniProjectGame
             //upright trajectory
             else if (PreviousX < CurrentX && PreviousY > CurrentY)
             {
-                //PreviousX = CurrentX;
-                //CurrentX++;
-                //PreviousY = CurrentY;
-                //CurrentY++;
+                Thread.Sleep(75);
+
+                PreviousX = CurrentX;
+                CurrentX++;
+                PreviousY = CurrentY;
+                CurrentY++;
                 Console.SetCursorPosition(CurrentX, CurrentY);
                 Console.Write("\u2588");
                 Console.SetCursorPosition(PreviousX, PreviousY);
@@ -405,10 +441,12 @@ namespace MiniProjectGame
             //downleft trajectory
             else if (PreviousX > CurrentX && PreviousY < CurrentY)
             {
-                //PreviousX = CurrentX;
-                //CurrentX++;
-                //PreviousY = CurrentY;
-                //CurrentY++;
+                Thread.Sleep(75);
+
+                PreviousX = CurrentX;
+                CurrentX++;
+                PreviousY = CurrentY;
+                CurrentY++;
                 Console.SetCursorPosition(CurrentX, CurrentY);
                 Console.Write("\u2588");
                 Console.SetCursorPosition(PreviousX, PreviousY);
@@ -418,28 +456,45 @@ namespace MiniProjectGame
             //downright trajectory
             else if (PreviousX < CurrentX && PreviousY < CurrentY)
             {
-                //PreviousX = CurrentX;
-                //CurrentX++;
-                //PreviousY = CurrentY;
-                //CurrentY++;
+                Thread.Sleep(75);
+
+                PreviousX = CurrentX;
+                CurrentX++;
+                PreviousY = CurrentY;
+                CurrentY++;
                 Console.SetCursorPosition(CurrentX, CurrentY);
                 Console.Write("\u2588");
                 Console.SetCursorPosition(PreviousX, PreviousY);
                 Console.Write(" ");
                 DiagonalRightMovement();
             }
-
         }
         public void DidBallHitBrick()
         {
-            foreach (int[] brick in this.BrickLocation)
+            foreach (int[] brick in BrickLocation)
             {
-                if (CurrentY == brick[0] && CurrentX >= brick[1] && CurrentX <= brick[3])
+                if (CurrentY == brick[0] && (CurrentX >= brick[1] && CurrentX <= brick[5])) // NEED TO CHECK HERE TO SEE IF MAYBE THIS IS WHAT IS CAUSING MESSED UP BRICK COLLISION DETECTION X/Y MIGHT BE OFF
                 {
                     //sends location of hit
+                    Breaker(brick);
                     HitBrick(CurrentX, CurrentY);
+                    return;
                 }
             }
+        }
+
+        public void DrawBall(int previousX, int previousY, int currentX, int currentY)
+        {
+            Console.SetCursorPosition(currentX, currentY);
+            Console.Write("\u2588");
+            Console.SetCursorPosition(previousX, previousY);
+            Console.Write(" ");
+        }
+        public void Breaker(int[] brick)
+        {
+            Console.SetCursorPosition(brick[1], brick[0]);
+            Console.Write("     ");
+            BrickLocation.Remove(brick);
         }
 
     }

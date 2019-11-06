@@ -12,23 +12,24 @@ namespace MiniProjectGame
             Console.BackgroundColor = ConsoleColor.Gray;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
-
+            
             Game game = new Game();
             Thread paddleThread = new Thread(game.Paddle.PaddleMovement);
             paddleThread.Start();
             Thread ballThread = new Thread(game.Ball.BallInPlay);
             ballThread.Start();
+           // game.Ball.BrickLocation = game.Bricks.BrickLocation;
             //Loop terminate upon win clearing all bricks now
-            while (game.DidYouWin())
+            while (game.DidYouWinOrLose())
             {
                 game.PaddleUpdate();
-                game.DidBallHitBrick();
+                //game.DidBallHitBrick();
                 //game.BrickLocationUpdater();
             }
             Console.Clear();
-            Console.WriteLine("YOU CLEARED THE LEVEL");
             ballThread.Interrupt();
             paddleThread.Interrupt();
+            Console.WriteLine("Game Over");
             Console.ReadKey();
         }
     }
