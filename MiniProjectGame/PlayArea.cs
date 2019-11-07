@@ -32,7 +32,6 @@ namespace MiniProjectGame
                     playArea.AppendLine("\u2588");
                 }
             }
-            count = 0;
             Console.WriteLine(playArea);
         }
     }

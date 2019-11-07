@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace MiniProjectGame
 {
@@ -18,45 +19,54 @@ namespace MiniProjectGame
             Ball = new Ball();
             Bricks = new Bricks();
             Ball.BrickLocation = Bricks.BrickLocation;
-            //BrickLocationUpdater();
+            Thread paddleThread = new Thread(Paddle.PaddleMovement);
+            paddleThread.Start();
+            Thread ballThread = new Thread(Ball.PutInPlay);
+            ballThread.Start();
+
         }
-        //updates paddle start position to ball class
         public void PaddleUpdate()
         {
             Ball.PaddlePosition = Paddle.Position;
-        }
-        //sends updated list from brick class to ball class
-        //public void BrickLocationUpdater()
-        //{
-        //    Ball.BrickLocation = Bricks.BrickLocation;
-        //}
-        public void DidBallHitBrick()
-        {
-            foreach (int[] brick in Bricks.BrickLocation)
-            {
-                if (Ball.CurrentY == brick[0] && (Ball.CurrentX >= brick[1] && Ball.CurrentX <= brick[5]))
-                {
-                    //sends the brick array and ball x & y coords at hit location
-                    Bricks.Breaker(brick, Ball.CurrentX, Ball.CurrentY);
-                    Ball.BrickLocation.Remove(brick); //removing brick directly here instead of location updater
-                    //BrickLocationUpdater();
-                    return;
-                }
-            }
         }
         //Checks for win and sends bool to terminate game
         public bool DidYouWinOrLose()
         {
             if (Bricks.BrickLocation.Count == 1)
             {
-                return false;
+                Console.SetCursorPosition(20, 17);
+                Console.Write("You Win!!!");
+                return Ball.PlayAgain();
             }
             else if (Ball.Turn > 2)
             {
-                return false;
+                Console.SetCursorPosition(21, 17);
+                Console.Write("You Lose");
+                return Ball.PlayAgain();
             }
             return true;
+        }
+        
+        public void PlayAgain()
+        {
+            Console.SetCursorPosition(21, 19);
+            Console.Write("Play Again? (y/n)");
+            ConsoleKeyInfo restart;
+            do
+            {
+                restart = Console.ReadKey(true);
+            }
+            while (restart.Key != ConsoleKey.Y || restart.Key != ConsoleKey.N);
+            if (restart.Key == ConsoleKey.Y) 
+            {
+                Game game = new Game();
+            }
+            else if (restart.Key == ConsoleKey.N)
+            {
+                return;
+            }
         }
 
     }
 }
+

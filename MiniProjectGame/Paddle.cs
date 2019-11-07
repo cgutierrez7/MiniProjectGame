@@ -11,11 +11,11 @@ namespace MiniProjectGame
         public int x { get; set; }
         public int y { get; set; }
 
-        StringBuilder paddle = new StringBuilder("\u2588\u2588\u2588\u2588\u2588");
+        StringBuilder paddle = new StringBuilder(@"/`._.'\"); //\u2588\u2588\u2588\u2588\u2588
 
         public Paddle()
         {
-            x = 24;
+            x = 23;
             y = 35;
             Console.SetCursorPosition(x, y);
             Console.Write(paddle);
@@ -44,7 +44,7 @@ namespace MiniProjectGame
 
                     case ConsoleKey.RightArrow:
                         x++;
-                        if (x > 45)
+                        if (x > 43)
                         {
                             x--;
                             break;

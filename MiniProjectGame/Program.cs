@@ -14,23 +14,17 @@ namespace MiniProjectGame
             Console.Clear();
             
             Game game = new Game();
-            Thread paddleThread = new Thread(game.Paddle.PaddleMovement);
-            paddleThread.Start();
-            Thread ballThread = new Thread(game.Ball.BallInPlay);
-            ballThread.Start();
-           // game.Ball.BrickLocation = game.Bricks.BrickLocation;
+            //Thread paddleThread = new Thread(game.Paddle.PaddleMovement);
+            //paddleThread.Start();
+            //Thread ballThread = new Thread(game.Ball.PutInPlay);
+            //ballThread.Start();
             //Loop terminate upon win clearing all bricks now
             while (game.DidYouWinOrLose())
             {
                 game.PaddleUpdate();
-                //game.DidBallHitBrick();
-                //game.BrickLocationUpdater();
             }
-            Console.Clear();
-            ballThread.Interrupt();
-            paddleThread.Interrupt();
-            Console.WriteLine("Game Over");
-            Console.ReadKey();
+            //ballThread.Interrupt();
+            //paddleThread.Interrupt();
         }
     }
 }

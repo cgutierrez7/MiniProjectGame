@@ -10,9 +10,8 @@ namespace MiniProjectGame
         public int BrickY { get; set; }
 
         public List<int[]> BrickLocation = new List<int[]>(); 
-        StringBuilder renderBrick = new StringBuilder("\u2588\u2588\u2588\u2588\u2588");
-        StringBuilder clearBrick = new StringBuilder("     ");
-        
+        StringBuilder renderBrick = new StringBuilder(">{}0>"); // >{}\u00b0> \u2588\u2588\u2588\u2588\u2588
+
         public Bricks()
         {
             // [0,0] added so BrickLocation is not empty upon clearing all bricks
@@ -39,14 +38,6 @@ namespace MiniProjectGame
         {
             int[] brickCoords = { y, startX, startX + 1, startX + 2, startX + 3, startX + 4 };
             BrickLocation.Add(brickCoords);
-        }
-        //removes brick from BrickLocation List and brick graphic
-        //This is currently functioning properly, except it probably needs double buffer to remove the brick graphic properly
-        public void Breaker(int[] brick, int ballX, int ballY)
-        {
-            Console.SetCursorPosition(brick[1], brick[0]);
-            Console.Write(clearBrick);
-            BrickLocation.Remove(brick);
         }
     }
 }
