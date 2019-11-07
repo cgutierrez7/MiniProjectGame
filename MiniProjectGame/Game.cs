@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
 
 namespace MiniProjectGame
 {
@@ -52,20 +53,21 @@ namespace MiniProjectGame
                 ConsoleKeyInfo quit = Console.ReadKey(true);
                 if (quit.Key == ConsoleKey.Y)
                 {
-                    Console.Write("You Continued");
-
+                    Console.SetCursorPosition(15, 17);
+                    Console.Write("                             ");
+                    Console.SetCursorPosition(15, 18);
+                    Console.Write("                             ");
+                    Console.SetCursorPosition(15, 17);
+                    Console.Write("                             ");
                     return true;
                 }
                 else if (quit.Key == ConsoleKey.N)
                 {
-                    Console.WriteLine("You decided to quit");
+                    Console.SetCursorPosition(16, 19);
+                    Console.Write("You decided to quit");
                     return false;
                 }
-                else
-                    continue;
-
             }
-
         }
     }
 }
