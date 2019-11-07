@@ -23,11 +23,9 @@ namespace MiniProjectGame
             {
                 game.PaddleUpdate();
             }
-            Console.Clear();
             ballThread.Interrupt();
             paddleThread.Interrupt();
-            Console.WriteLine("Game Over");
-            Console.ReadKey();
+            Console.Clear();
         }
     }
 }
