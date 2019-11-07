@@ -18,33 +18,12 @@ namespace MiniProjectGame
             Ball = new Ball();
             Bricks = new Bricks();
             Ball.BrickLocation = Bricks.BrickLocation;
-            //BrickLocationUpdater();
         }
         //updates paddle start position to ball class
         public void PaddleUpdate()
         {
             Ball.PaddlePosition = Paddle.Position;
         }
-        //sends updated list from brick class to ball class
-        //public void BrickLocationUpdater()
-        //{
-        //    Ball.BrickLocation = Bricks.BrickLocation;
-        //}
-        public void DidBallHitBrick()
-        {
-            foreach (int[] brick in Bricks.BrickLocation)
-            {
-                if (Ball.CurrentY == brick[0] && (Ball.CurrentX >= brick[1] && Ball.CurrentX <= brick[5]))
-                {
-                    //sends the brick array and ball x & y coords at hit location
-                    Bricks.Breaker(brick, Ball.CurrentX, Ball.CurrentY);
-                    Ball.BrickLocation.Remove(brick); //removing brick directly here instead of location updater
-                    //BrickLocationUpdater();
-                    return;
-                }
-            }
-        }
-        //Checks for win and sends bool to terminate game
         public bool DidYouWinOrLose()
         {
             if (Bricks.BrickLocation.Count == 1)

@@ -28,18 +28,21 @@ namespace MiniProjectGame
             {
                 Console.SetCursorPosition(26, 33);
                 Console.Write("\u2588");
+                PreviousX = 26;
+                PreviousY = 33;
                 CurrentX = 26;
                 CurrentY = 33;
             }
 
-            ConsoleKeyInfo startBall;
-            do
+            while (true)
             {
-                startBall = Console.ReadKey(true);
+                ConsoleKeyInfo startBall = Console.ReadKey(true);
+                if (startBall.Key == ConsoleKey.Spacebar)
+                {
+                    UpwardMovement();
+                    return;
+                }
             }
-            while (startBall.Key != ConsoleKey.Spacebar);
-            if (startBall.Key == ConsoleKey.Spacebar)
-                UpwardMovement();
         }
 
         public void UpwardMovement()
@@ -52,22 +55,14 @@ namespace MiniProjectGame
                 {
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(CurrentX, PreviousY);
-                    Console.Write(" ");
-
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 }
                 else if (CurrentY == 2)
                 {
                     PreviousY = CurrentY;
                     CurrentY++;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(CurrentX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DownwardMovement();
-                    return;
                 }
             }
         }
@@ -83,10 +78,7 @@ namespace MiniProjectGame
                     CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalLeftMovement();
                 }
                 else if ((CurrentX == PaddlePosition + 3 || CurrentX == PaddlePosition + 4) && CurrentY == 34)
@@ -95,32 +87,22 @@ namespace MiniProjectGame
                     CurrentX++;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalRightMovement();
                 }
                 else if (CurrentX == PaddlePosition + 2 && CurrentY == 34)
                 {
                     PreviousX = CurrentX;
-                    //CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     UpwardMovement();
                 }
                 else if (CurrentY > 2 && CurrentY < 36)
                 {
                     PreviousY = CurrentY;
                     CurrentY++;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(CurrentX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 }
 
                 else if (CurrentY == 36)
@@ -147,23 +129,27 @@ namespace MiniProjectGame
                     CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY++;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalLeftDownMovement();
                 }
-                //Continue moving left & upward
+                //Top left corner hit
+                else if (CurrentY == 2 && CurrentX == 2)
+                {
+                    PreviousX = CurrentX;
+                    CurrentX++;
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
+                    DiagonalRightDownMovement();
+                }
+                //Continue upward & left
                 else if (CurrentX > 2 && CurrentY < 36 && CurrentY > 2)
                 {
                     PreviousX = CurrentX;
                     CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 }
                 //Collision with Left Wall, but continue upward
                 else if (CurrentX == 2 && CurrentY > 2)
@@ -172,10 +158,7 @@ namespace MiniProjectGame
                     CurrentX++;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalRightMovement();
                 }
             }
@@ -192,25 +175,26 @@ namespace MiniProjectGame
                     CurrentX++;
                     PreviousY = CurrentY;
                     CurrentY++;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalRightDownMovement();
+                }
+                //Top right corner hit
+                else if (CurrentY == 2 && CurrentX == 49)
+                {
+                    PreviousX = CurrentX;
+                    CurrentX--;
+                    PreviousY = CurrentY;
+                    CurrentY++;
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
+                    DiagonalLeftDownMovement();
                 }
                 else if (CurrentX < 49 && CurrentY < 36 && CurrentY > 2)
                 {
-                    //Rightward Movement
                     PreviousX = CurrentX;
                     CurrentX++;
-                    //Downward Movement
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
-
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 }
                 else if (CurrentX == 49 && CurrentY > 2)
                 {
@@ -218,10 +202,7 @@ namespace MiniProjectGame
                     CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalLeftMovement();
                 }
             }
@@ -237,22 +218,15 @@ namespace MiniProjectGame
                 {
                     PreviousX = CurrentX;
                     CurrentX++;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalRightDownMovement();
                 }
                 else if (CurrentX == PaddlePosition + 2 && CurrentY == 34)
                 {
                     PreviousX = CurrentX;
-                    //CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     UpwardMovement();
                 }
                 else if (CurrentX >= PaddlePosition && CurrentX <= PaddlePosition + 4 && CurrentX != PaddlePosition + 2 && CurrentY == 34)
@@ -261,10 +235,7 @@ namespace MiniProjectGame
                     CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalLeftMovement();
                 }
                 else if (CurrentY > 2 && CurrentY < 36)
@@ -273,10 +244,7 @@ namespace MiniProjectGame
                     CurrentY++;
                     PreviousX = CurrentX;
                     CurrentX--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 }
                 else if (CurrentY == 36)
                 {
@@ -296,51 +264,43 @@ namespace MiniProjectGame
             {
                 DidBallHitBrick();
                 Thread.Sleep(75);
+                //Right wall hit
                 if (CurrentX == 49)
                 {
                     PreviousX = CurrentX;
                     CurrentX--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalLeftDownMovement();
                 }
+                //Middle paddle hit
                 else if (CurrentX == PaddlePosition + 2 && CurrentY == 34)
                 {
                     PreviousX = CurrentX;
-                    //CurrentX--;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     UpwardMovement();
                 }
+                //Paddle hit, keeps trajectory
                 else if (CurrentX >= PaddlePosition && CurrentX <= PaddlePosition + 4 && CurrentX != PaddlePosition + 2 && CurrentY == 34)
                 {
                     PreviousX = CurrentX;
                     CurrentX++;
                     PreviousY = CurrentY;
                     CurrentY--;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                     DiagonalRightMovement();
                 }
+                //Continues down right
                 else if (CurrentY > 2 && CurrentY < 36)
                 {
                     PreviousY = CurrentY;
                     CurrentY++;
                     PreviousX = CurrentX;
                     CurrentX++;
-                    Console.SetCursorPosition(CurrentX, CurrentY);
-                    Console.Write("\u2588");
-                    Console.SetCursorPosition(PreviousX, PreviousY);
-                    Console.Write(" ");
+                    DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 }
+                //Out of play
                 else if (CurrentY == 36)
                 {
                     Console.SetCursorPosition(CurrentX, CurrentY);
@@ -352,120 +312,71 @@ namespace MiniProjectGame
                 }
             }
         }
-
-        public void PaddleHitLeftMovement()
-        {
-            Thread.Sleep(75);
-            PreviousX = CurrentX;
-            CurrentX--;
-            PreviousY = CurrentY;
-            CurrentY--;
-            Console.SetCursorPosition(CurrentX, CurrentY);
-            Console.Write("\u2588");
-            Console.SetCursorPosition(PreviousX, PreviousY);
-            Console.Write(" ");
-            DiagonalLeftMovement();
-        }
-        public void PaddleHitRightMovement()
-        {
-            Thread.Sleep(75);
-            PreviousX = CurrentX;
-            CurrentX++;
-            PreviousY = CurrentY;
-            CurrentY--;
-            Console.SetCursorPosition(CurrentX, CurrentY);
-            Console.Write("\u2588");
-            Console.SetCursorPosition(PreviousX, PreviousY);
-            Console.Write(" ");
-            DiagonalRightMovement();
-        }
-        public void PaddleHitUpMovement()
-        {
-            Thread.Sleep(75);
-            PreviousX = CurrentX;
-            PreviousY = CurrentY;
-            CurrentY--;
-            Console.SetCursorPosition(CurrentX, CurrentY);
-            Console.Write("\u2588");
-            Console.SetCursorPosition(PreviousX, PreviousY);
-            Console.Write(" ");
-            UpwardMovement();
-        }
-
         //upon hitting a brick method
-        public void HitBrick(int currentX, int currentY)
+        public void HitBrick()
         {
-            //CurrentX = currentX;
-            //CurrentY = currentY;
-            //Console.WriteLine($"({PreviousX}, {PreviousY})  ({CurrentX}, {CurrentY})");
             //straight up trajectory
             if (PreviousX == CurrentX && PreviousY >= CurrentY)
             {
                 Thread.Sleep(75);
-                Console.SetCursorPosition(CurrentX, CurrentY);
-                Console.Write("\u2588");
-                Console.SetCursorPosition(PreviousX, PreviousY);
-                Console.Write(" ");
+                CurrentX = PreviousX;
+                PreviousX = CurrentX;
+                CurrentY = PreviousY;
+                PreviousY = CurrentY;
+                CurrentY++;
+                DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 DownwardMovement();
             }
             //upleft trajectory
             else if (PreviousX > CurrentX && PreviousY > CurrentY)
             {
                 Thread.Sleep(75);
-
+                CurrentX = PreviousX;
                 PreviousX = CurrentX;
                 CurrentX--;
+                CurrentY = PreviousY;
                 PreviousY = CurrentY;
                 CurrentY++;
-                Console.SetCursorPosition(CurrentX, CurrentY);
-                Console.Write("\u2588");
-                Console.SetCursorPosition(PreviousX, PreviousY);
-                Console.Write(" ");
+                DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 DiagonalLeftDownMovement();
             }
             //upright trajectory
             else if (PreviousX < CurrentX && PreviousY > CurrentY)
             {
                 Thread.Sleep(75);
-
+                CurrentX = PreviousX;
                 PreviousX = CurrentX;
                 CurrentX++;
+                CurrentY = PreviousY;
                 PreviousY = CurrentY;
                 CurrentY++;
-                Console.SetCursorPosition(CurrentX, CurrentY);
-                Console.Write("\u2588");
-                Console.SetCursorPosition(PreviousX, PreviousY);
-                Console.Write(" ");
+                DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 DiagonalRightDownMovement();
             }
             //downleft trajectory
             else if (PreviousX > CurrentX && PreviousY < CurrentY)
             {
                 Thread.Sleep(75);
-
+                CurrentX = PreviousX;
                 PreviousX = CurrentX;
-                CurrentX++;
+                CurrentX--;
+                CurrentY = PreviousY;
                 PreviousY = CurrentY;
-                CurrentY++;
-                Console.SetCursorPosition(CurrentX, CurrentY);
-                Console.Write("\u2588");
-                Console.SetCursorPosition(PreviousX, PreviousY);
-                Console.Write(" ");
+                CurrentY--;
+                DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 DiagonalLeftMovement();
             }
             //downright trajectory
             else if (PreviousX < CurrentX && PreviousY < CurrentY)
             {
                 Thread.Sleep(75);
-
+                CurrentX = PreviousX;
                 PreviousX = CurrentX;
                 CurrentX++;
+                CurrentY = PreviousY;
                 PreviousY = CurrentY;
-                CurrentY++;
-                Console.SetCursorPosition(CurrentX, CurrentY);
-                Console.Write("\u2588");
-                Console.SetCursorPosition(PreviousX, PreviousY);
-                Console.Write(" ");
+                CurrentY--;
+                DrawBall(PreviousX, PreviousY, CurrentX, CurrentY);
                 DiagonalRightMovement();
             }
         }
@@ -477,7 +388,7 @@ namespace MiniProjectGame
                 {
                     //sends location of hit
                     Breaker(brick);
-                    HitBrick(CurrentX, CurrentY);
+                    HitBrick();
                     return;
                 }
             }
